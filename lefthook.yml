@@ -1,0 +1,9 @@
+pre-push:
+  parallel: true
+  commands:
+    lint:
+      name: ESLint
+      run: npm run lint
+    unit-tests:
+      name: Unit tests
+      run: npm run test
