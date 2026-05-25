@@ -1,9 +1,8 @@
 import { createGroq } from '@ai-sdk/groq';
 import { createOpenAI } from '@ai-sdk/openai';
 import { createAnthropic } from '@ai-sdk/anthropic';
-import { createOllama } from 'ollama-ai-provider';
 
-export type AIProviderName = 'groq' | 'openai' | 'anthropic' | 'ollama';
+export type AIProviderName = 'groq' | 'openai' | 'anthropic';
 
 export interface AIConfig {
   provider: AIProviderName;
@@ -22,7 +21,6 @@ const TOKEN_BUDGETS: Record<AIProviderName, TokenBudget> = {
   anthropic: { maxInputChars: 80000, maxTokens: 8000, extractionMaxTokens: 3000 },
   openai:    { maxInputChars: 80000, maxTokens: 8000, extractionMaxTokens: 3000 },
   groq:      { maxInputChars: 30000, maxTokens: 4000, extractionMaxTokens: 2000 },
-  ollama:    { maxInputChars: 15000, maxTokens: 2500, extractionMaxTokens: 1200 },
 };
 
 export function getLanguageModel(config: AIConfig) {
@@ -38,10 +36,6 @@ export function getLanguageModel(config: AIConfig) {
     case 'anthropic': {
       const anthropic = createAnthropic({ apiKey: config.apiKey || process.env.ANTHROPIC_API_KEY });
       return anthropic(config.model || 'claude-sonnet-4-6');
-    }
-    case 'ollama': {
-      const ollama = createOllama({ baseURL: config.baseUrl || 'http://localhost:11434/api' });
-      return ollama(config.model || 'llama3.1:8b');
     }
     default:
       throw new Error(`Unknown AI provider: ${config.provider}`);
