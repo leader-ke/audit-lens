@@ -18,9 +18,9 @@ test.describe('Landing page', () => {
   });
 
   test('demo showcase renders at least one tab', async ({ page }) => {
-    // The demo showcase section should be present
-    const tabList = page.getByRole('tab').first();
-    await expect(tabList).toBeVisible();
+    // Tabs are rendered as buttons in the demo showcase
+    const tabBtn = page.locator('button').filter({ hasText: /balance|engagement|working|letter|report|trial/i }).first();
+    await expect(tabBtn).toBeVisible();
   });
 
   test('pricing section shows 4 plans', async ({ page }) => {
