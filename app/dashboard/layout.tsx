@@ -3,6 +3,7 @@ import { getSession } from '@/lib/auth/middleware';
 import Link from 'next/link';
 import { LogOut } from 'lucide-react';
 import { NavLinks } from './nav-links';
+import { logout } from '@/app/actions/auth';
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();
@@ -45,7 +46,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
               <p className="text-xs font-semibold text-slate-800 truncate leading-tight">{session.fullName}</p>
               <p className="text-[10.5px] text-slate-400 truncate leading-tight mt-0.5">{session.email}</p>
             </div>
-            <form action="/api/auth/logout" method="POST">
+            <form action={logout}>
               <button
                 type="submit"
                 title="Sign out"
